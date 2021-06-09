@@ -1,7 +1,5 @@
 # Author
 
-Overview
-
 
 
 ## Table of Contents
