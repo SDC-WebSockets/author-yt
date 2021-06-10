@@ -1,0 +1,107 @@
+import axios from 'axios';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled from 'styled-components';
+import { AuthorWrapper, InstHeader, NameHeader, JobHeader, AvatarInfo, AvatarParent, AvatarImage, InstructorStats, StatListItem, MiniIcon, IconIcon, PentPath, RibbonPath, PeoplePath, PlayPath, StatListItemText, BioWrapper, BioContents, BioParagraph, ReadMore } from './components/Styles.jsx';
+
+const numberWithCommas = (x) => {
+  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null;
+};
+
+class Author extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      author: {},
+      expanded: true
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const regex = /\d+/;
+    let course = window.location.search.match(regex) === null ? 5 : window.location.search.match(regex)[0];
+    console.log(course);
+    this.getAuthor(course);
+  }
+
+  getAuthor(id = 5) {
+    axios.get(`http://ec2-54-234-67-3.compute-1.amazonaws.com:3000/overview/?courseId=${id}`)
+    .then((res) => {
+      let authorId = res.data.author;
+      console.log('author number', authorId);
+      axios.get(`http://localhost:4095/author/?authorId=${authorId}`)
+      .then((res) => {
+          console.log(res.data);
+          this.setState({
+            author: res.data
+          });
+      })
+      .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
+  }
+
+  handleClick () {
+    this.setState({expanded: !this.state.expanded});
+  }
+
+  render () {
+    return (
+      <AuthorWrapper>
+        <InstHeader>Instructor</InstHeader>
+        <NameHeader href={'https://udemy.com/user/' + this.state.author.firstName + this.state.author.lastName}>{this.state.author.firstName} {this.state.author.lastName}</NameHeader>
+        <JobHeader>
+        {this.state.author.job}, {this.state.author.employer}
+        </JobHeader>
+        <AvatarInfo>
+          <AvatarParent href={'https://udemy.com/user/' + this.state.author.firstName + this.state.author.lastName}>
+            <AvatarImage src={this.state.author.thumbnail} />
+          </AvatarParent>
+          <InstructorStats>
+            <StatListItem>
+              <MiniIcon aria-hidden="true" focusable="false">
+                {PentPath}
+              </MiniIcon>
+              <StatListItemText>
+                {this.state.author.rating} Instructor Rating
+              </StatListItemText>
+            </StatListItem>
+            <StatListItem>
+              <MiniIcon aria-hidden="true" focusable="false">
+                {RibbonPath}
+              </MiniIcon>
+              <StatListItemText>
+                {numberWithCommas(this.state.author.reviews)} Reviews
+              </StatListItemText>
+            </StatListItem>
+            <StatListItem>
+              <MiniIcon aria-hidden="true" focusable="false">
+                {PeoplePath}
+              </MiniIcon>
+              <StatListItemText>
+                {numberWithCommas(this.state.author.students)} Students
+              </StatListItemText>
+            </StatListItem>
+            <StatListItem>
+              <MiniIcon aria-hidden="true" focusable="false">
+                {PlayPath}
+              </MiniIcon>
+              <StatListItemText>
+                {numberWithCommas(this.state.author.courses)} Courses
+              </StatListItemText>
+            </StatListItem>
+          </InstructorStats>
+        </AvatarInfo>
+        <BioWrapper>
+          <BioContents expanded={this.state.expanded}>
+            <BioParagraph>{this.state.author.bio}</BioParagraph>
+            <ReadMore>Read more</ReadMore>
+          </BioContents>
+        </BioWrapper>
+      </AuthorWrapper>
+    );
+  }
+}
+
+ReactDOM.render(<Author />, document.getElementById('author'));

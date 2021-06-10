@@ -27,7 +27,7 @@ let Author = mongoose.model('Author', authorSchema);
 
 let save = (records) => {
   records.forEach(record => {
-    let entry = new Overview({
+    let entry = new Author({
       authorId: record.authorId,
       firstName: record.firstName,
       middleName: record.middleName,
@@ -43,13 +43,13 @@ let save = (records) => {
       captions: record.captions
     });
     Promise.resolve(entry.save())
-      .then(doc => console.log('Saved', doc._doc.title))
+      .then(doc => console.log('Saved', doc._doc.authorId))
       .catch(err => console.log(err));
   });
 };
 
 let get = (authorId, callback) => {
-  Overview.find({authorId: authorId})
+  Author.find({authorId: authorId})
     .then(doc => callback(doc))
     .catch(err => console.log(err));
 };
