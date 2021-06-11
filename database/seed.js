@@ -3,80 +3,81 @@ const axios = require('axios');
 const db = require('./author.js');
 const faker = require('faker');
 
-const pkg = require('./../aws.config.js');
-const { AWSAccessKeyId, AWSSecretKey, Bucket } = pkg;
+if (process.argv[2] === 'fill') {
+  const pkg = require('./../aws.config.js');
+  const { AWSAccessKeyId, AWSSecretKey, Bucket } = pkg;
 
-const s3 = new AWS.S3({
-  accessKeyId: AWSAccessKeyId,
-  secretAccessKey: AWSSecretKey
-});
+  const s3 = new AWS.S3({
+    accessKeyId: AWSAccessKeyId,
+    secretAccessKey: AWSSecretKey
+  });
 
-const params = {
-  Bucket: Bucket,
-  CreateBucketConfiguration: {
-    LocationConstraint: 'us-east-1'
-  }
-}
-
-const emptyBucket = async () => {
-  console.log('Emptying bucket ', Bucket);
-  const { Contents } = await s3.listObjects({ Bucket: Bucket }).promise();
-  if (Contents.length > 0) {
-    await s3.deleteObjects({
-      Bucket: Bucket,
-      Delete: {
-        Objects: Contents.map(({ Key }) => ({ Key }))
-      }
-    })
-      .promise();
-  }
-  return true;
-};
-
-const uploadFile = async (fileContent, fileName) => {
-  console.log('Uploading:', fileName);
   const params = {
     Bucket: Bucket,
-    Key: fileName,
-    Body: fileContent,
-    ContentType: 'image/jpeg'
+    CreateBucketConfiguration: {
+      LocationConstraint: 'us-east-1'
+    }
+  }
+
+  const emptyBucket = async () => {
+    console.log('Emptying bucket ', Bucket);
+    const { Contents } = await s3.listObjects({ Bucket: Bucket }).promise();
+    if (Contents.length > 0) {
+      await s3.deleteObjects({
+        Bucket: Bucket,
+        Delete: {
+          Objects: Contents.map(({ Key }) => ({ Key }))
+        }
+      })
+        .promise();
+    }
+    return true;
   };
 
-  return await s3.upload(params, function (err, data) {
-    if (err) {
-      console.log(err);
-    } else {
-      return `Uploaded: ${data.key}`;
-    }
-  }).promise();
-};
+  const uploadFile = async (fileContent, fileName) => {
+    console.log('Uploading:', fileName);
+    const params = {
+      Bucket: Bucket,
+      Key: fileName,
+      Body: fileContent,
+      ContentType: 'image/jpeg'
+    };
 
-const imager = async function(i) {
-  try {
-    let res = await axios({
-      url: 'https://thispersondoesnotexist.com/image',
-      method: 'GET',
-      timeout: 1000,
-      headers: {
-        'Content-Type': 'image/jpeg'
+    return await s3.upload(params, function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        return `Uploaded: ${data.key}`;
       }
-    });
-    if (res.status === 200) {
-      let image = Buffer.from(res.data);
-      let result = await uploadFile(image, `${i}.jpg`);
-      console.log(result);
+    }).promise();
+  };
+
+  const imager = async function(i) {
+    try {
+      let res = await axios({
+        url: 'https://thispersondoesnotexist.com/image',
+        method: 'GET',
+        timeout: 1000,
+        headers: {
+          'Content-Type': 'image/jpeg'
+        }
+      });
+      if (res.status === 200) {
+        let image = Buffer.from(res.data);
+        let result = await uploadFile(image, `${i}.jpg`);
+        console.log(result);
+      }
+      return
     }
-    return
-  }
-  catch(err) {console.log(err)}
-};
+    catch(err) {console.log(err)}
+  };
 
-const bucketfill = async function() {
-  for (i = 1; i <= 100; i++) {
-    await imager(i);
-  }
+  const bucketfill = async function() {
+    for (i = 1; i <= 100; i++) {
+      await imager(i);
+    }
+  };
 };
-
 const create = function() {
   const data = [];
   let firstName, middleName, lastName, job, employer = '';
