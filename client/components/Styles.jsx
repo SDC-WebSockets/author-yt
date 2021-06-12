@@ -118,7 +118,7 @@ export const BioBefore = styled.div`
     color: #083E48;
   }
   position: absolute;
-  bottom:10px;
+  bottom: 0px;
   left:0;
   width:100%;
   z-index: 2;
