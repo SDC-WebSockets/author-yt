@@ -13,7 +13,7 @@ class Author extends React.Component {
     super(props);
     this.state = {
       author: {},
-      expanded: true
+      expanded: false
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -93,10 +93,9 @@ class Author extends React.Component {
             </StatListItem>
           </InstructorStats>
         </AvatarInfo>
-        <BioWrapper>
+        <BioWrapper expanded={this.state.expanded} onClick={this.handleClick}>
           <BioContents expanded={this.state.expanded}>
-            <BioParagraph>{this.state.author.bio}</BioParagraph>
-            <ReadMore>Read more</ReadMore>
+            <BioParagraph expanded={this.state.expanded}>{this.state.author.bio}</BioParagraph>
           </BioContents>
         </BioWrapper>
       </AuthorWrapper>
