@@ -109,18 +109,23 @@ export const BioWrapper = styled.div`
   position:relative;
   height: auto;
   overflow: hidden;
-  &:before {
-    content: ${props => props.expanded ? '"Show less"' : '"Show more"'};
-    font-weight: 700;
-    color: #0F7C90;
-    position: absolute;
-    bottom:10px;
-    left:0;
-    width:100%;
-    z-index: 2;
-    text-align: left;
+  `;
+export const BioBefore = styled.div`
+  cursor: pointer;
+  font-weight: 700;
+  color: #0F7C90;
+  &:hover {
+    color: #083E48;
   }
-  &:after {
+  position: absolute;
+  bottom:10px;
+  left:0;
+  width:100%;
+  z-index: 2;
+  text-align: left;
+  `;
+
+export const BioAfter = styled.div`
     display: ${props => props.expanded ? 'none' : 'block'};
     content: "";
     position: absolute;
@@ -133,12 +138,10 @@ export const BioWrapper = styled.div`
     background: -moz-linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
     background: -o-linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
     background: linear-gradient(rgba(255,255,255,0) 0%, rgba(255,255,255,1) 70%);
-  }
   `;
 
 export const BioContents = styled.div`
   max-height: ${props => props.expanded ? 'none' : '100px'};
-  -webkit-mask: ${props => props.expanded ? 'none' : 'linear-gradient(180deg, rgb(60, 59, 55), rgb(60, 59, 55) 60px, rgb(255,255,255))'};
   `;
 
 export const BioParagraph = styled.p`
@@ -148,7 +151,14 @@ export const BioParagraph = styled.p`
   max-height: ${props => props.expanded ? 'none' : '100px'};
   `;
 
-export const ReadMore = styled.div`
+export const PointerSVG = styled.svg`
+  position: relative;
+  top: 2px;
+  width: 24px;
+  height: 15px;
+  margin-left: 6px;
+  fill: currentColor;
+  }
   `;
 
 export const PentPath = (

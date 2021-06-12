@@ -1,8 +1,9 @@
 import axios from 'axios';
+import Pointer from './components/Pointer.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { AuthorWrapper, InstHeader, NameHeader, JobHeader, AvatarInfo, AvatarParent, AvatarImage, InstructorStats, StatListItem, MiniIcon, IconIcon, PentPath, RibbonPath, PeoplePath, PlayPath, StatListItemText, BioWrapper, BioContents, BioParagraph, ReadMore } from './components/Styles.jsx';
+import { AuthorWrapper, InstHeader, NameHeader, JobHeader, AvatarInfo, AvatarParent, AvatarImage, InstructorStats, StatListItem, MiniIcon, IconIcon, PentPath, RibbonPath, PeoplePath, PlayPath, StatListItemText, BioWrapper, BioContents, BioParagraph, BioBefore, BioAfter } from './components/Styles.jsx';
 
 const numberWithCommas = (x) => {
   return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : null;
@@ -93,10 +94,12 @@ class Author extends React.Component {
             </StatListItem>
           </InstructorStats>
         </AvatarInfo>
-        <BioWrapper expanded={this.state.expanded} onClick={this.handleClick}>
-          <BioContents expanded={this.state.expanded}>
-            <BioParagraph expanded={this.state.expanded}>{this.state.author.bio}</BioParagraph>
-          </BioContents>
+        <BioWrapper expanded={this.state.expanded}>
+          <BioBefore expanded={this.state.expanded} onClick={this.handleClick}>{this.state.expanded ? 'Show less' : 'Show more'} <Pointer expanded={this.state.expanded}/></BioBefore>
+            <BioContents expanded={this.state.expanded}>
+              <BioParagraph expanded={this.state.expanded}>{this.state.author.bio}</BioParagraph>
+            </BioContents>
+          <BioAfter expanded={this.state.expanded}></BioAfter>
         </BioWrapper>
       </AuthorWrapper>
     );
