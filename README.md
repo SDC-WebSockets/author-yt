@@ -1,25 +1,28 @@
 # Yosep Tjahja (Database refactor), forked from Eric Knechtges
 
-
-
 ## Table of Contents
 
 1. [Usage](#Usage)
 2. [Requirements](#requirements)
 3. [Development](#development)
-4. API paths
+4. [CRUD API paths](#crudpaths)
 
 ## Usage
 
 To seed database:
+
 ```sh
 npm run seed
 ```
+
 To create bundle:
+
 ```sh
 npm run build
 ```
+
 To start server:
+
 ```sh
 npm run start
 ```
@@ -40,7 +43,8 @@ npm install -g webpack
 npm install
 ```
 
-#### 4 - API Paths ####
+#### 4 - CRUD API Paths
+
 Get: http://localhost:4095/author?authorId=:authorId
 Post: http://localhost:4095/author
 Put: http://localhost:4095/author?authorId=:authorId
