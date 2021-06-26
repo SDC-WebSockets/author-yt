@@ -1,12 +1,13 @@
-# Author
+# Yosep Tjahja (Database refactor), forked from Eric Knechtges
 
 
 
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+2. [Requirements](#requirements)
+3. [Development](#development)
+4. API paths
 
 ## Usage
 
@@ -38,3 +39,9 @@ From within the root directory:
 npm install -g webpack
 npm install
 ```
+
+#### 4 - API Paths ####
+Get: http://localhost:4095/author?authorId=:authorId
+Post: http://localhost:4095/author
+Put: http://localhost:4095/author?authorId=:authorId
+Delete: http://localhost:4095/author?authorId=:authorId
