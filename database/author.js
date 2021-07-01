@@ -25,7 +25,7 @@ let authorSchema = new mongoose.Schema({
 
 let Author = mongoose.model('Author', authorSchema);
 
-let save = (records) => {
+let save = (records, cb) => {
     records.forEach(record => {
         let entry = new Author({
             authorId: record.authorId,
@@ -43,8 +43,17 @@ let save = (records) => {
             captions: record.captions
         });
         Promise.resolve(entry.save())
+            .then(doc => {
+                console.log('Saved', doc._doc.authorId);
+                cb(null, doc);
+            })
+            .catch(err => {
+                console.log(err);
+                cb(err, null);
+            });
+        /* Promise.resolve(entry.save())
             .then(doc => console.log('Saved', doc._doc.authorId))
-            .catch(err => console.log(err));
+            .catch(err => console.log(err)); */
     });
 };
 
@@ -56,10 +65,11 @@ let update = (record, callback) => {
     )
         .then((result) => {
             console.log(result);
-            callback(null);
+            callback(null, result);
         })
         .catch(err => {
             console.log(err);
+            callback(err, null);
         });
 };
 
@@ -77,6 +87,7 @@ let deleteRec = (authorId, callback) => {
 };
 
 let get = (authorId, callback) => {
+    // console.log(authorId);
     Author.find({ authorId: authorId })
         .then(doc => callback(doc))
         .catch(err => console.log(err));

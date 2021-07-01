@@ -4,7 +4,7 @@
 
 1. [Usage](#Usage)
 2. [Requirements](#requirements)
-3. [Development](#development)
+3. [Installing Dependencies](#development)
 4. [CRUD API paths](#crudpaths)
 
 ## Usage
@@ -43,7 +43,7 @@ npm install -g webpack
 npm install
 ```
 
-#### 4 - CRUD API Paths
+#### 4 - CRUD API paths
 
 Get: http://localhost:4095/author?authorId=:authorId
 Post: http://localhost:4095/author

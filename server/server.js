@@ -53,9 +53,10 @@ app.post('/author', function (req, res) {
         'thumbnail': author.thumbnail,
         'bio': bio
     });
-    db.save(data);
-    res.status(200).json({
-        message: req.body
+    db.save(data, (err, doc) => {
+        if (!err) {
+            res.status(200).send(doc);
+        }
     });
 });
 
@@ -76,11 +77,11 @@ app.put('/author?:authorId', function (req, res) {
         'courses': Math.floor(Math.random() * 90) + 10,
         'thumbnail': author.thumbnail,
         'bio': bio
-    }, (err) => {
+    }, (err, result) => {
         if (err) {
             res.status(404).send('failed to update');
         } else {
-            res.status(200).send('data has been updated');
+            res.status(200).send(result);
         }
     });
 });
