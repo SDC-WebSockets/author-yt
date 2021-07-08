@@ -1,12 +1,19 @@
+require('dotenv').config();
 const faker = require('faker');
 const { Pool, Client } = require('pg');
 
+const host = process.env.PG_HOST;
+const port = process.env.PG_PORT;
+const username = process.env.PG_USER;
+const password = process.env.PG_PASS;
+const database = process.env.PG_DB;
+
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'author',
-    password: 'student',
-    port: 5432,
+    user: username,
+    host: host,
+    database: database,
+    password: password,
+    port: port,
 });
 
 pool.connect();
