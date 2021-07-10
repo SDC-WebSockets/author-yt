@@ -1,36 +1,43 @@
 const fs = require('fs');
 const faker = require('faker');
 const path = require('path');
+const moment = require('moment');
 
-const authorCsv = path.join(`${__dirname}/authorData.csv`);
+const authorCsv = path.join(`${__dirname}/data/authorData.csv`);
 
-const createAuthor = (id) => {
+const populateAuthor = (records => {
+    let author_id, first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at, updated_at;
+    let commaPos;
+    const header = 'author_id,first_name,middle_name,last_name,job,employer,rating,reviews,students,courses,thumbnail,bio,created_at, updated_at';
+
     const authorStream = fs.createWriteStream(authorCsv);
-    const header = 'author_id,first_name,middle_name,last_name,job,employer,rating,reviews,students,courses,thumbnail,bio';
+    let authorObj;
 
-    author_id = id;
-    first_name = faker.name.firstName();
-    middle_name = faker.name.firstName();
-    last_name = faker.name.lastName();
-    job = faker.name.title();
-    employer = faker.company.companyName();
-    rating = (Number.parseFloat((Math.random() * 2) + 3).toFixed(1));
-    reviews = Math.floor(Math.random() * 100000);
-    students = Math.floor(Math.random() * 1000000);
-    courses = Math.floor(Math.random() * 90) + 10;
-    // thumbnail = `https://author-avatars.s3.amazonaws.com/${i}.jpeg`;
-    bio = `${first_name} ${middle_name} ${last_name} has a BS in ${faker.name.jobDescriptor()}.`;
+    authorStream.write(`${header}\n`);
 
-  const authorData = [author_id, first_name, middle_name, job, employer, rating, reviews, students, courses, bio];
+    for (let i = 1; i <= records; i++) {
+        author_id = i;
+        first_name = faker.name.firstName();
+        middle_name = faker.name.firstName();
+        last_name = faker.name.lastName();
+        job = faker.name.title();
+        employer = faker.company.companyName();
+        commaPos = employer.indexOf(',');
+        if (commaPos >= 0) {
+            employer = employer.substring(0, commaPos);
+        }
+        rating = (Number.parseFloat((Math.random() * 2) + 3).toFixed(1));
+        reviews = Math.floor(Math.random() * 100000);
+        students = Math.floor(Math.random() * 1000000);
+        courses = Math.floor(Math.random() * 90) + 10;
+        thumbnail = `https://authors-avatar.s3.amazonaws.com/${i}.jpg`;
+        bio = `${first_name} ${middle_name} ${last_name} has a BS in ${faker.name.jobDescriptor()}.`;
+        created_at = moment().format('YYYY-MM-DD hh:mm:ss');
 
-  return authorData;
-};
+        authorObj = [author_id, first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at];
+        authorStream.write(`${authorObj}\n`);
+    }
+    authorStream.end();
+});
 
-const dataGen = async () => {
-  console.log(`Generating ${3 * numberOfCourses} total records of data`);
-  generatePriceData(numberOfCourses);
-  generateVideoData(numberOfCourses);
-  generateSidebarData(numberOfCourses);
-};
-
-dataGen(10 ** 7);
+populateAuthor(10000000);

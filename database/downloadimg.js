@@ -1,34 +1,42 @@
 const request = require('request');
 const fs = require('fs');
+const resizeImg = require('resize-img');
 
 async function download(url, dest) {
 
-    const file = fs.createWriteStream(dest);
+  const file = fs.createWriteStream(dest);
 
-    await new Promise((resolve, reject) => {
-      request({
-        uri: url,
-        gzip: true,
-      })
-          .pipe(file)
-          .on('finish', async () => {
-            // console.log(`The file is finished downloading.`);
-            resolve();
-          })
-          .on('error', (error) => {
-            reject(error);
-          });
+  await new Promise((resolve, reject) => {
+    request({
+      uri: url,
+      gzip: true,
     })
-        .catch((error) => {
-          console.log(`Something happened: ${error}`);
+      .pipe(file)
+      .on('finish', async () => {
+        // console.log(`The file is finished downloading.`);
+
+        const image = await resizeImg(fs.readFileSync(dest), {
+          width: 128,
+          height: 128
         });
+        fs.writeFileSync(dest, image);
+
+        resolve();
+      })
+      .on('error', (error) => {
+        reject(error);
+      });
+  })
+    .catch((error) => {
+      console.log(`Something happened: ${error}`);
+    });
 }
 
 (async () => {
-    for (let i=1; i<=10000000; i++) {
-        const data = await download('https://thispersondoesnotexist.com/image', `../../images/${i}.jpg`);
-    }
-  	// console.log(data); // The file is finished downloading.
+  for (let i = 12592; i <= 1000000; i++) {
+    const data = await download('https://thispersondoesnotexist.com/image', `../../images/${i}.jpg`);
+  }
+  // console.log(data); // The file is finished downloading.
 })();
 
 /* var fs = require('fs'),

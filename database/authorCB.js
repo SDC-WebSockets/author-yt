@@ -7,7 +7,7 @@ const username = process.env.CB_USER;
 const password = process.env.CB_PASS;
 const bucketName = process.env.CB_BUCKET;
 
-var cluster = new couchbase.Cluster('couchbase://' + host,
+const cluster = new couchbase.Cluster('couchbase://' + host,
     {
         username: username,
         password: password
@@ -31,7 +31,7 @@ async function populateDb() {
         reviews = Math.floor(Math.random() * 100000);
         students = Math.floor(Math.random() * 1000000);
         courses = Math.floor(Math.random() * 90) + 10;
-        thumbnail = `https://author-avatars.s3.amazonaws.com/${i}.jpeg`;
+        thumbnail = `https://authors-avatar.s3.amazonaws.com/${i}.jpeg`;
         bio = `${first_name} ${middle_name} ${last_name} has a BS in ${faker.name.jobDescriptor()}.`;
 
         insertSql = `INSERT INTO \'author\' (KEY, VALUE) VALUES $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12`;
