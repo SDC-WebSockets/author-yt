@@ -1,6 +1,7 @@
 require('dotenv').config();
 const path = require('path');
 const { Pool } = require('pg');
+const moment = require('moment');
 
 const host = process.env.PG_HOST;
 const port = process.env.PG_PORT;
@@ -32,11 +33,11 @@ const seedDB = async () => Promise.resolve(pool.connect())
         console.log('DB connected at ', result.rows[0].now);
         const createSql = `DROP TABLE IF EXISTS author;
         CREATE TABLE author(
-        author_id SERIAL NOT NULL,
+        author_id SERIAL NOT NULL PRIMARY KEY,
         first_name VARCHAR(40),
         middle_name VARCHAR(40),
         last_lame VARCHAR(40),
-        job VARCHAR(40),
+        job VARCHAR(100),
         employer VARCHAR(100),
         rating DECIMAL(2,1),
         reviews INTEGER,
@@ -51,11 +52,17 @@ const seedDB = async () => Promise.resolve(pool.connect())
     })
     .then(() => {
         console.log('Table was created successfully!');
+
+        const startTime = moment().format('YYYY-MM-DD hh:mm:ss');
+        console.log('Importing csv file to Postgres start time: ', startTime);
         return copyCSV(authorCsv, 'author');
     })
     .then(() => pool.query('SELECT NOW()'))
     .then((result) => {
         console.log('Completed seeding at ', result.rows[0].now);
+
+        const endTime = moment().format('YYYY-MM-DD hh:mm:ss');
+        console.log('Importing csv file to Postgres end time: ', endTime);
         return pool.end();
     })
     .catch((error) => {
