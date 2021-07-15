@@ -53,11 +53,11 @@ Put: http://localhost:4095/author?authorId=:authorId
 Delete: http://localhost:4095/author?authorId=:authorId
 
 #### Journal
-<u>06/24/2021</u>: Review
+<ins>06/24/2021</ins>: Review<br/>
 This project is the continuation of Front End Capstone project that was started by the other team (the team that started this project). The focus of this project is the scalability and performance benchmark. The application is going to be measured against a high traffic request (minimum of 100 requests per second) with a minimum 10 millions database recaords.
 I have been assigned to work on this Author portion of the project, we are a team of four.
 
-06/25/2021: Started working
+<ins>06/25/2021</ins>: Started working<br/>
 I had been busy reviewing the legacy code. There were interesting front end codes that I wanted to get more intimated with but given the scope of this project, I tried to refrain myself from going deep dive on those codes, next time when I have a chance perhaps.
 
 06/26/2021: API CRUD methods
