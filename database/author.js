@@ -1,9 +1,21 @@
 const mongoose = require('mongoose').set('debug', true);
-mongoose.connect('mongodb://localhost/author', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
 
+async function resolveConnection() {
+    console.log('connecting');
+    try {
+        await mongoose.connect('mongodb://localhost:27017/author', {
+            family: 4,
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            // serverSelectionTimeoutMS: 5000
+        });
+        console.log('connected');
+    } catch (error) {
+        console.log(error.reason);
+    }
+}
+
+resolveConnection();
 var db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -57,6 +69,19 @@ let save = (records, cb) => {
     });
 };
 
+let saveDoc = (record, cb) => {
+    
+    Author.insertMany(record)
+        .then(docs => {
+            console.log('docs is successfully saved');
+            cb(null, docs);
+        })
+        .catch(err => {
+            console.log(err);
+            cb(err, null);
+        });
+};
+
 let update = (record, callback) => {
     console.log('updating ', record.authorId);
     Author.findOneAndUpdate(
@@ -94,6 +119,7 @@ let get = (authorId, callback) => {
 };
 
 module.exports.save = save;
+module.exports.saveDoc = saveDoc;
 module.exports.get = get;
 module.exports.update = update;
 module.exports.deleteRec = deleteRec;

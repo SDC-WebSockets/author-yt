@@ -80,9 +80,9 @@ if (process.argv[2] === 'fill') {
 };
 const create = function() {
   const data = [];
-  let firstName, middleName, lastName, job, employer = '';
-  for (let i = 1; i <= 100; i++) {
-    console.log('index', i);
+  let firstName, middleName, lastName, job, employer = '', image;
+  for (let i = 1; i <= 10000000; i++) {
+    // console.log('index', i);
     firstName = faker.name.firstName();
     middleName = faker.name.firstName();
     lastName = faker.name.lastName();
@@ -104,7 +104,8 @@ const create = function() {
       'bio': bio
     });
   }
-  db.save(data);
+  db.save(data, (err, result) => {
+  });
 }
 
 if (process.argv[2] === 'empty') {
