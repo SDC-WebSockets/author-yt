@@ -1,4 +1,4 @@
-# Yosep Tjahja (SDC Capstone)
+# Yosep Tjahja (SDC Project)
 
 ## Table of Contents
 
@@ -53,6 +53,9 @@ Put: http://localhost:4095/author?authorId=:authorId<br/>
 Delete: http://localhost:4095/author?authorId=:authorId<br/>
 
 #### Journal
+
+
+
 <ins>06/24/2021</ins>: Review<br/>
 This project is the continuation of Front End Capstone project that was started by the other team (the team that started this project). The focus of this project is the scalability and performance benchmark. The application is going to be measured against a high traffic request (minimum of 100 requests per second) with a minimum 10 millions database recaords.
 I have been assigned to work on this Author portion of the project, we are a team of four.
@@ -64,12 +67,17 @@ I had been busy reviewing the legacy code. There were interesting front end code
 Started working on developing the CRUD methods of the server API. The legacy code only has the read/GET path so I refactored a bit on the read before moving on to the POST, PATCH, and DELETE routes. 
 
 <ins>06/28/2021</ins>: API CRUD test<br/>
-Jest time! Not really my fav part in the development world but it's pretty much the requirement. Finally got it done with a sigh of relief, phew...
+Jest time! Not really my fav part in the development world but it's pretty much the requirement. Used 'supertest' to test all four CRUD paths. Finally got it done with a sigh of relief, phew...
 
 <ins>06/29/2021</ins>: Database research<br/>
 We want to try different databases for this SDC project. It uses MongoDB for the previous phase (FDC) so eventhough it is one of my favorite Db, I need to look around and compare at least one SQL and one NOSQL database.
 List of SQL candidates to research on: MySql, Postgres, MariaDB.
 NOSQL: Cassandra, Riak, Couchbase, CouchDB
+
+Project intro
+DB research
+Data generation scripts
+Queries performance benchmarks
 
 <ins>06/30/2021</ins>: Database generation scripts<br/>
 Working on developing data seeding scripts to generate 10 millions records of data. I used Postgres for this task and managed to generate up to 5 millions records before getting time out error. Splitting it is, 2 processes of 5 millions records each.
@@ -107,16 +115,16 @@ Copying 10 millions records from csv file into Postgres database. The process co
 Okay, so MongoDB was the only NOSQL database that I have been exposed to, so I kind need to warm up a bit on Couchbase. There is obviously less conversation compared to MongoDb but it has quite an extensive documentation so I did not really go down the rabbit hole per se, just needed time to get to know its quirks.<br/>
 <br/>
 <ins>07/09/2021</ins>: Propagating data generation script for Couchbase<br/>
-I used the cbimport statement from Couchbase to import the same csv file that I used for Postgres. Using the Node Js spawn shell command child process, I was copying 10 millions records from csv file into Couchbase database. The process consumed 8-12% CPU processing power but utilized an additional 40-50% CPU processing power for Memcached. The process took about 20 minutes.
+I used the cbimport statement from Couchbase to import the same csv file that I used for Postgres. Using the Node Js spawn shell command child process, I was copying 10 millions records from csv file into Couchbase database. The process consumed 8-12% CPU processing power but utilized an additional 40-50% CPU processing power for Memcached. The process took about 20 minutes.<br/>
+Next is to perform SQL query execution benchmarks.<br/>
+It took Postgres about 1ms for both select and update statement and it took Couchbase 3ms and 66ms respectively for the same statements.<br/><br/>
 
 <ins>07/10/2021</ins>: And the winner is ... <br/>
-By looking at the stats on both Postgres and Couchbase data generation scripts, it's quite obvious that Postgres performed better but hey, I did not want to rush my decision just yet so let's do the SQL query execution benchmarks then.<br/>
-It took Postgres about 1ms for both select and update statement and it took Couchbase 3ms and 66ms respectively for the same statements.<br/>
+It's understandably justified that Postgres performed better for this type of database operation due to the nature of SQL database which is more suitable for transactional database operations. My database is not that complex (i.e. does not have hierarchical structure nor require unstructured data storage) Also, since I do not have complex database, I will not have the advantage of not having to spend time to prepare my database relations.
 <br/>
-Looks like we have a winner here, case is put to rest, at least until Coachbase expert fan can prove otherwise...<br/>
 
 <ins>07/13/2021</ins>: Discussion, discussion<br/>
-Had a rather lengthy conversation with the other team members, just shared all the findings that we had, some challenges and roadblocks that one of the team member had because she had a rather complex database structure. She had a nested objects in one table which joins to other table if I am not mistaken. The combination of those multiple joins of 10 millions records produced an insanely large amount of billion of records.<br/>
+Had a rather lengthy conversation with the other team members, just shared all the findings that we had, some challenges and roadblocks that one of the team member had because she had a rather complex database structure. She had a hierarchical structure on one collection which has a join relationship to another collection and the combination of those multiple joins of 10 millions records produced an insanely large amount of billion of records.<br/>
 <br/>
 #### Documentation
 Couchbase CLI: https://docs.couchbase.com/server/current/tools/cbq-shell.html
