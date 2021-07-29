@@ -31,9 +31,9 @@ const seedDB = async () => Promise.resolve(pool.connect())
     .then(() => pool.query('SELECT NOW()'))
     .then((result) => {
         console.log('DB connected at ', result.rows[0].now);
-        const createSql = `DROP TABLE IF EXISTS author;
-        CREATE TABLE author(
-        author_id SERIAL NOT NULL PRIMARY KEY,
+        const createSql = `DROP TABLE IF EXISTS authors;
+        CREATE TABLE authors(
+        author_id SERIAL PRIMARY KEY,
         first_name VARCHAR(40),
         middle_name VARCHAR(40),
         last_lame VARCHAR(40),

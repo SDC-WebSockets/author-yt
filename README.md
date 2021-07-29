@@ -126,5 +126,14 @@ It's understandably justified that Postgres performed better for this type of da
 <ins>07/13/2021</ins>: Discussion, discussion<br/>
 Had a rather lengthy conversation with the other team members, just shared all the findings that we had, some challenges and roadblocks that one of the team member had because she had a rather complex database structure. She had a hierarchical structure on one collection which has a join relationship to another collection and the combination of those multiple joins of 10 millions records produced an insanely large amount of billion of records.<br/>
 <br/>
+
+<ins>07/27/2021</ins>: Back to SDC after Mini Apps weeklong break<br/>
+Found new material in Learn dashboard to read & watch. Created account at New Relic and tried to get familiar with its interface.<br/>
+<br/>
+
+<ins>07/28/2021</ins>: Rework server/database code<br/>
+The legacy code uses MongoDB and I need to update the code to use the new database (Postgres)<br/>
+<br/>
+
 #### Documentation
 Couchbase CLI: https://docs.couchbase.com/server/current/tools/cbq-shell.html
