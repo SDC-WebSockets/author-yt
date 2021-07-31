@@ -106,3 +106,4 @@ dist
 # AWS config
 aws.config.js
 
+.csv
