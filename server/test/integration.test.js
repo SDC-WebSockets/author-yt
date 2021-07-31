@@ -16,7 +16,7 @@ describe('GET /author', function () {
 
 describe('POST /author', function () {
     const testAuthor = {
-        'authorId': 999,
+        // 'authorId': 999,
         'firstName': "John",
         'middleName': "",
         'lastName': "Doe",

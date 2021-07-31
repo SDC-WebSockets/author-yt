@@ -19,8 +19,9 @@ const pool = new Pool({
 
 const authorCsv = path.join(`${__dirname}/data/authorData.csv`);
 
-const copyCSV = (pathToCopy, type) => {
-    const copyText = `COPY ${type}
+const copyCSV = (pathToCopy, tableName) => {
+    const copyText = `COPY ${tableName}
+    (first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at, updated_at)
     FROM '${pathToCopy}'
     DELIMITER ','
     CSV HEADER;`;
@@ -31,12 +32,12 @@ const seedDB = async () => Promise.resolve(pool.connect())
     .then(() => pool.query('SELECT NOW()'))
     .then((result) => {
         console.log('DB connected at ', result.rows[0].now);
-        const createSql = `DROP TABLE IF EXISTS authors;
-        CREATE TABLE authors(
+        const createSql = `DROP TABLE IF EXISTS author;
+        CREATE TABLE author(
         author_id SERIAL PRIMARY KEY,
         first_name VARCHAR(40),
         middle_name VARCHAR(40),
-        last_lame VARCHAR(40),
+        last_name VARCHAR(40),
         job VARCHAR(100),
         employer VARCHAR(100),
         rating DECIMAL(2,1),
@@ -48,7 +49,7 @@ const seedDB = async () => Promise.resolve(pool.connect())
         created_at timestamp,
         updated_at timestamp
       );`;
-        return pool.query(createSql);
+        // return pool.query(createSql);
     })
     .then(() => {
         console.log('Table was created successfully!');

@@ -106,3 +106,5 @@ dist
 # AWS config
 aws.config.js
 
+.csv
+/database/data/authorData.csv

@@ -8,7 +8,7 @@ const authorCsv = path.join(`${__dirname}/data/authorData.csv`);
 const populateAuthor = (records => {
     let author_id, first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at, updated_at;
     let commaPos;
-    const header = 'author_id,first_name,middle_name,last_name,job,employer,rating,reviews,students,courses,thumbnail,bio,created_at,updated_at';
+    const header = 'first_name,middle_name,last_name,job,employer,rating,reviews,students,courses,thumbnail,bio,created_at,updated_at';
 
     const authorStream = fs.createWriteStream(authorCsv);
     let authorObj;
@@ -38,8 +38,9 @@ const populateAuthor = (records => {
         created_at = moment().format('YYYY-MM-DD hh:mm:ss');
         updated_at = moment().format('YYYY-MM-DD hh:mm:ss');
 
-        authorObj = [author_id, first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at, updated_at];
+        authorObj = [first_name, middle_name, last_name, job, employer, rating, reviews, students, courses, thumbnail, bio, created_at, updated_at];
         authorStream.write(`${authorObj}\n`);
+        console.log(i);
     }
     authorStream.end();
 
@@ -47,4 +48,4 @@ const populateAuthor = (records => {
     console.log('creating csv file end time: ', endTime);
 });
 
-populateAuthor(10000000);
+populateAuthor(1);

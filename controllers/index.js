@@ -1,4 +1,4 @@
-var models = require('../models');
+var models = require('../server/models');
 
 module.exports = {
   messages: {

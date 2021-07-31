@@ -18,5 +18,5 @@ const pool = new Pool({
 pool.connect();
 
 module.exports = {
-    dbConnection: pool
-};
+    db: pool
+}
