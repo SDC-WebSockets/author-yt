@@ -1,3 +1,4 @@
+require('newrelic');
 const { Author } = require('./models');
 const express = require('express');
 const cors = require('cors');
