@@ -107,3 +107,4 @@ dist
 aws.config.js
 
 .csv
+/newrelic.js
