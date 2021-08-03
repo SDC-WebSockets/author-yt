@@ -16,20 +16,20 @@ describe('CRUD API', () => {
         });
     });
 
-    describe('POST /author', function () {
-        const testAuthor = {
-            'authorId': 999,
-            'firstName': "John",
-            'middleName': "",
-            'lastName': "Doe",
-            'job': "ReactJS Developer",
-            'employer': "Facebook",
-            'rating': (Number.parseFloat((Math.random() * 2) + 3).toFixed(1)),
-            'reviews': Math.floor(Math.random() * 100000),
-            'students': Math.floor(Math.random() * 1000000),
-            'courses': Math.floor(Math.random() * 90) + 10,
-            'thumbnail': "https://author-avatars.s3.amazonaws.com/99.jpeg"
-        };
+describe('POST /author', function () {
+    const testAuthor = {
+        // 'authorId': 999,
+        'firstName': "John",
+        'middleName': "",
+        'lastName': "Doe",
+        'job': "ReactJS Developer",
+        'employer': "Facebook",
+        'rating': (Number.parseFloat((Math.random() * 2) + 3).toFixed(1)),
+        'reviews': Math.floor(Math.random() * 100000),
+        'students': Math.floor(Math.random() * 1000000),
+        'courses': Math.floor(Math.random() * 90) + 10,
+        'thumbnail': "https://author-avatars.s3.amazonaws.com/99.jpeg"
+    };
 
         it('adding Author is successful by testing the information of the new record', function (done) {
             return request

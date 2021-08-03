@@ -171,18 +171,15 @@ var Author = /*#__PURE__*/function (_React$Component) {
 
       var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
       // axios.get(`http://ec2-54-234-67-3.compute-1.amazonaws.com:3000/overview/?courseId=${id}`)
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:4095/overview/?courseId=".concat(id)).then(function (res) {
-        var authorId = res.data.author;
-        console.log('author number', authorId); //   axios.get(`http://ec2-3-95-223-55.compute-1.amazonaws.com:4095/author/?authorId=${authorId}`)
+      // .then((res) => {
+      //   let authorId = res.data.author;
+      //   console.log('author number', authorId);
+      //   axios.get(`http://ec2-3-95-223-55.compute-1.amazonaws.com:4095/author/?authorId=${authorId}`)
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:4095/author/?authorId=".concat(id)).then(function (res) {
+        console.log(res.data);
 
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:4095/author/?authorId=".concat(authorId)).then(function (res) {
-          console.log(res.data);
-
-          _this2.setState({
-            author: res.data
-          });
-        })["catch"](function (err) {
-          return console.log(err);
+        _this2.setState({
+          author: res.data
         });
       })["catch"](function (err) {
         return console.log(err);

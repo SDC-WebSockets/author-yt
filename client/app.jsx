@@ -28,12 +28,11 @@ class Author extends React.Component {
 
   getAuthor(id = 5) {
     // axios.get(`http://ec2-54-234-67-3.compute-1.amazonaws.com:3000/overview/?courseId=${id}`)
-    axios.get(`http://localhost:4095/overview/?courseId=${id}`)
-    .then((res) => {
-      let authorId = res.data.author;
-      console.log('author number', authorId);
+    // .then((res) => {
+    //   let authorId = res.data.author;
+    //   console.log('author number', authorId);
     //   axios.get(`http://ec2-3-95-223-55.compute-1.amazonaws.com:4095/author/?authorId=${authorId}`)
-      axios.get(`http://localhost:4095/author/?authorId=${authorId}`)
+      axios.get(`http://localhost:4095/author/?authorId=${id}`)
       .then((res) => {
           console.log(res.data);
           this.setState({
@@ -41,8 +40,6 @@ class Author extends React.Component {
           });
       })
       .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
   }
 
   handleClick () {
