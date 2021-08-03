@@ -6,7 +6,7 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": "webpack -d -w",
     "start": "nodemon server/start.js",
     "seed": "node database/seed.js",
     "test": "jest --detectOpenHandles"
