@@ -16,7 +16,7 @@ export let options = {
 }
 
 export default function () {
-    const testUrl = 'http://localhost:4095/author';
+    const testUrl = 'http://3.15.228.199:4095/author';
     const author = JSON.stringify(generateAuthor());
     const response = http.post(testUrl, author, { headers: { 'Content-Type': 'application/json' } });
     check(response, {
