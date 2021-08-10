@@ -175,7 +175,7 @@ var Author = /*#__PURE__*/function (_React$Component) {
       //   let authorId = res.data.author;
       //   console.log('author number', authorId);
       //   axios.get(`http://ec2-3-95-223-55.compute-1.amazonaws.com:4095/author/?authorId=${authorId}`)
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://localhost:4095/author/?authorId=".concat(id)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("http://3.15.228.199:4095/author/?authorId=".concat(id)).then(function (res) {
         console.log(res.data);
 
         _this2.setState({

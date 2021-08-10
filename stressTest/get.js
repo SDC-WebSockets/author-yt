@@ -7,7 +7,7 @@ export let options = {
         executor: "constant-arrival-rate",
         rate: 100,
         timeUnit: "1s",
-        duration: "120s",
+        duration: "180s",
         preAllocatedVUs: 100,
         maxVUs: 300,
       },

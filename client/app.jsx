@@ -32,7 +32,7 @@ class Author extends React.Component {
     //   let authorId = res.data.author;
     //   console.log('author number', authorId);
     //   axios.get(`http://ec2-3-95-223-55.compute-1.amazonaws.com:4095/author/?authorId=${authorId}`)
-      axios.get(`http://localhost:4095/author/?authorId=${id}`)
+      axios.get(`http://3.15.228.199:4095/author/?authorId=${id}`)
       .then((res) => {
           console.log(res.data);
           this.setState({
