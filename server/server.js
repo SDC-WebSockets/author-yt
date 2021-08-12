@@ -1,6 +1,7 @@
 require('newrelic');
 const { Author } = require('./models');
 const express = require('express');
+
 const cors = require('cors');
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(express.static(__dirname + '/../public'));
 
 app.get('/author?:authorId', function (req, res) {
     let authorId = req.query.authorId;
+    // console.log(authorId, ' : ', new Date().getSeconds());
     Author.get(authorId, function (err, authorObj) {
         if (err) {
             res.status(404).send([]);
@@ -41,6 +43,8 @@ app.get('/author?:authorId', function (req, res) {
 app.post('/author', function (req, res) {
     const data = [];
     let author = req.body;
+    let date = new Date();
+    console.log(date.getSeconds(), ':', date.getMilliseconds());
     author.bio = `${author.first_name} ${author.middle_name} ${author.last_name} works for ${author.employer}`;
 
     Author.save(author, (err, result) => {

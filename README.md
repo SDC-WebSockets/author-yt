@@ -134,5 +134,99 @@ Found new material in Learn dashboard to read & watch. Created account at New Re
 The legacy code uses MongoDB and I need to update the code to use the new database (Postgres)<br/>
 <br/>
 
+<ins>08/09/2021</ins>: Stress Test<br/>
+I ran the server load test benchmark before working on improving the performance:
+
+I) K6 stress test - get request
+
+--- 1) scenarios: (100.00%) 1 scenario, 300 max VUs, 4m30s max duration (incl. graceful stop):
+           * constant_request_rate: 100.00 iterations/s for 4m0s (maxVUs: 100-300, gracefulStop: 30s)
+
+running (4m00.0s), 000/100 VUs, 24001 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/100 VUs  4m0s  100 iters/s
+
+     ✓ response status 200
+
+     checks.........................: 100.00% ✓ 24001      ✗ 0
+     data_received..................: 14 MB   60 kB/s
+     data_sent......................: 2.5 MB  10 kB/s
+     http_req_blocked...............: avg=8.41µs   min=0s      med=0s     max=29.51ms  p(90)=0s      p(95)=0s
+     http_req_connecting............: avg=4.91µs   min=0s      med=0s     max=28ms     p(90)=0s      p(95)=0s
+     http_req_duration..............: avg=3.7ms    min=900.2µs med=2.77ms max=225.22ms p(90)=5.12ms  p(95)=6.98ms
+       { expected_response:true }...: avg=3.7ms    min=900.2µs med=2.77ms max=225.22ms p(90)=5.12ms  p(95)=6.98ms
+     http_req_failed................: 0.00%   ✓ 0          ✗ 24001
+     http_req_receiving.............: avg=133.27µs min=0s      med=0s     max=80.89ms  p(90)=546.2µs p(95)=1ms
+     http_req_sending...............: avg=16.19µs  min=0s      med=0s     max=3.99ms   p(90)=0s      p(95)=0s
+     http_req_tls_handshaking.......: avg=0s       min=0s      med=0s     max=0s       p(90)=0s      p(95)=0s
+     http_req_waiting...............: avg=3.55ms   min=900.2µs med=2.56ms max=225.22ms p(90)=4.99ms  p(95)=6.73ms
+     http_reqs......................: 24001   100.000131/s
+     iteration_duration.............: avg=4.17ms   min=1.51ms  med=3.31ms max=225.73ms p(90)=5.52ms  p(95)=7.44ms
+     iterations.....................: 24001   100.000131/s
+     vus............................: 100     min=100      max=100
+     vus_max........................: 100     min=100      max=100
+
+
+--- 2) scenarios: (100.00%) 1 scenario, 300 max VUs, 4m30s max duration (incl. graceful stop):
+           * constant_request_rate: 1000.00 iterations/s for 4m0s (maxVUs: 100-300, gracefulStop: 30s)
+
+WARN[0002] Insufficient VUs, reached 300 active VUs and cannot initialize more  executor=constant-arrival-rate scenario=constant_request_rate
+
+running (0m02.5s), 300/300 VUs, 411 complete and 0 interrupted iterations
+
+running (4m00.3s), 000/300 VUs, 103167 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/300 VUs  4m0s  1000 iters/s
+
+     ✓ response status 200
+
+     checks.........................: 100.00% ✓ 103167     ✗ 0
+     data_received..................: 62 MB   259 kB/s
+     data_sent......................: 11 MB   44 kB/s
+     dropped_iterations.............: 136807  569.418885/s
+     http_req_blocked...............: avg=7.06µs   min=0s       med=0s       max=14.52ms p(90)=0s       p(95)=0s
+     http_req_connecting............: avg=3.69µs   min=0s       med=0s       max=9.1ms   p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=693.48ms min=285.48ms med=666.19ms max=1.4s    p(90)=869.9ms  p(95)=961.06ms
+       { expected_response:true }...: avg=693.48ms min=285.48ms med=666.19ms max=1.4s    p(90)=869.9ms  p(95)=961.06ms
+     http_req_failed................: 0.00%   ✓ 0          ✗ 103167
+     http_req_receiving.............: avg=91.56µs  min=0s       med=0s       max=60.51ms p(90)=505.24µs p(95)=991.8µs
+     http_req_sending...............: avg=15.96µs  min=0s       med=0s       max=29.99ms p(90)=0s       p(95)=0s
+     http_req_tls_handshaking.......: avg=0s       min=0s       med=0s       max=0s      p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=693.37ms min=285.48ms med=666.09ms max=1.4s    p(90)=869.79ms p(95)=961ms
+     http_reqs......................: 103167  429.402283/s
+     iteration_duration.............: avg=693.68ms min=285.48ms med=666.38ms max=1.4s    p(90)=870.21ms p(95)=961.41ms
+     iterations.....................: 103167  429.402283/s
+     vus............................: 300     min=214      max=300
+     vus_max........................: 300     min=214      max=300
+
+-- 3) scenarios: (100.00%) 1 scenario, 300 max VUs, 4m30s max duration (incl. graceful stop):
+           * constant_request_rate: 10000.00 iterations/s for 4m0s (maxVUs: 100-300, gracefulStop: 30s)
+
+WARN[0001] Insufficient VUs, reached 300 active VUs and cannot initialize more  executor=constant-arrival-rate scenario=constant_request_rate
+
+running (4m00.3s), 000/300 VUs, 107394 complete and 0 interrupted iterations
+constant_request_rate ✓ [======================================] 000/300 VUs  4m0s  10000 iters/s
+
+     ✓ response status 200
+
+     checks.........................: 100.00% ✓ 107394      ✗ 0
+     data_received..................: 65 MB   269 kB/s
+     data_sent......................: 11 MB   46 kB/s
+     dropped_iterations.............: 2292829 9540.468595/s
+     http_req_blocked...............: avg=9.25µs   min=0s       med=0s       max=33.33ms p(90)=0s       p(95)=0s
+     http_req_connecting............: avg=6.09µs   min=0s       med=0s       max=13.82ms p(90)=0s       p(95)=0s
+     http_req_duration..............: avg=667.92ms min=299.95ms med=639.46ms max=1.37s   p(90)=810.16ms p(95)=902.04ms
+       { expected_response:true }...: avg=667.92ms min=299.95ms med=639.46ms max=1.37s   p(90)=810.16ms p(95)=902.04ms
+     http_req_failed................: 0.00%   ✓ 0           ✗ 107394
+     http_req_receiving.............: avg=88.4µs   min=0s       med=0s       max=45.9ms  p(90)=0s       p(95)=999.3µs
+     http_req_sending...............: avg=12.18µs  min=0s       med=0s       max=41.05ms p(90)=0s       p(95)=0s
+     http_req_tls_handshaking.......: avg=0s       min=0s       med=0s       max=0s      p(90)=0s       p(95)=0s
+     http_req_waiting...............: avg=667.82ms min=299.95ms med=639.32ms max=1.37s   p(90)=809.97ms p(95)=901.97ms
+     http_reqs......................: 107394  446.866768/s
+     iteration_duration.............: avg=668.06ms min=300.2ms  med=639.57ms max=1.37s   p(90)=810.26ms p(95)=902.24ms
+     iterations.....................: 107394  446.866768/s
+     vus............................: 300     min=263       max=300
+     vus_max........................: 300     min=263       max=300
+<br/>
+
+
 #### Documentation
 Couchbase CLI: https://docs.couchbase.com/server/current/tools/cbq-shell.html
