@@ -134,5 +134,14 @@ Found new material in Learn dashboard to read & watch. Created account at New Re
 The legacy code uses MongoDB and I need to update the code to use the new database (Postgres)<br/>
 <br/>
 
+<ins>08/09/2021</ins>: Stress Test<br/>
+<br/>
+
+<ins>08/10/2021</ins>: AWS deployment<br/>
+<br/>
+
+<ins>08/11/2021</ins>: Node Cluster Module<br/>
+<br/>
+
 #### Documentation
 Couchbase CLI: https://docs.couchbase.com/server/current/tools/cbq-shell.html

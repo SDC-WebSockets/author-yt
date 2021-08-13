@@ -108,3 +108,5 @@ aws.config.js
 
 .csv
 /newrelic.js
+/login.sh
+/authorDb.sql
